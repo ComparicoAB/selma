@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Akdr\Selma;
 
+use Akdr\Selma\Traits\Input;
 use Facebook\WebDriver\Remote\RemoteWebElement;
 use League\CLImate\CLImate;
 use JBZoo\Utils\Filter;
 
 class Element
 {
+    use Input;
     /**
      * @var CLImate 
      */
