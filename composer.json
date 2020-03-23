@@ -19,7 +19,7 @@
     },
     "minimum-stability": "stable",
     "require": {
-        "facebook/webdriver": "^1.7",
+        "php-webdriver/webdriver": "^1.8",
         "league/climate": "^3.5",
         "jbzoo/utils": "^3.1"
     },
