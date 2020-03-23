@@ -1,9 +1,8 @@
 {
     "name": "akdr/selma",
     "description": "Library for easier use of PHP-Webdriver",
-    "version": "0.1.0",
     "keywords": ["webdriver", "library"],
-    "license": "Apache",
+    "license": "MIT",
     "authors": [
         {
             "name": "Daniel Westerling",
