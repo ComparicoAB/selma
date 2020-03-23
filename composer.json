@@ -1,5 +1,5 @@
 {
-    "name": "Akdr/Selma",
+    "name": "akdr/selma",
     "description": "Library for easier use of PHP-Webdriver",
     "version": "0.1.0",
     "keywords": ["webdriver", "library"],
@@ -13,9 +13,9 @@
         }
     ],
     "support": {
-        "issues": "https://github.com/Akdr/Selma/issues",
-        "source": "https://github.com/Akdr/Selma",
-        "docs": "https://github.com/Akdr/Selma"
+        "issues": "https://github.com/akdr/selma/issues",
+        "source": "https://github.com/akdr/selma",
+        "docs": "https://github.com/akdr/selma"
     },
     "minimum-stability": "stable",
     "require": {
