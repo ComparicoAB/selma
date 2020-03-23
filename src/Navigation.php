@@ -44,12 +44,9 @@ class Navigation
     {
         $options = new ChromeOptions();
         $options->addArguments($chromeOptionsArguments);
-        #    array(
-        #    '--window-size=500,10000',
-        #));
 
         $capabilities = DesiredCapabilities::chrome();
-        $capabilities->setCapability(ChromeOptions::CAPABILITY, $options);
+        $capabilities->setCapability(ChromeOptions::CAPABILITY_W3C, $options);
 
         $this->webDriver = RemoteWebDriver::create($webdriverHostURL, $capabilities);
 
