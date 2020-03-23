@@ -14,6 +14,7 @@ $browser->goTo('http://google.com');
 //Select the searchbox and fill it with the text "Selma"
 $browser->selectElement('input[type="text"]')->click()->insertStringIntoElement('Selma')->pressEnter();
 
+//Fetch the results from the browser
 $results = $browser->selectElements('h3.LC20lb')->getText()->returnElementAndValue();
 
 //Loop through the results and echo the value.
