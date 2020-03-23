@@ -26,7 +26,7 @@ trait Input
 
     public function pressEnter(): RemoteWebElement
     {
-        $this->element->pressKey(WebDriverKeys::ENTER); 
+        $this->element->sendKeys(WebDriverKeys::ENTER); 
         
         return $this->element;
     }
