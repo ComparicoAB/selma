@@ -6,7 +6,6 @@ namespace Akdr\Selma\Traits;
 
 use Akdr\Selma\Element;
 use Facebook\WebDriver\WebDriverKeys;
-use Facebook\WebDriver\Remote\RemoteWebElement;
 
 trait Input
 {
@@ -15,19 +14,27 @@ trait Input
      *
      * @param string $inputString
      *
-     * @return RemoteWebElement
+     * @return Element
      */
-    public function insertStringIntoElement(string $inputString): RemoteWebElement
+    public function insertStringIntoElement(string $inputString): Element
     {
         $this->element->sendKeys($inputString);
 
-        return $this->element;
+        return $this;
     }
 
-    public function pressEnter(): RemoteWebElement
+    /**
+     * Press a key on the current element
+     *
+     * @param string $inputString
+     *
+     * @return Element
+     */
+    public function pressKey(string $WebDriverKeyConstant): Element
     {
-        $this->element->sendKeys(WebDriverKeys::ENTER); 
+        $ref = new \ReflectionClass('Facebook\WebDriver\WebDriverKeys');
+        $this->element->sendKeys($ref->getConstant($WebDriverKeyConstant)); 
         
-        return $this->element;
+        return $this;
     }
 }
