@@ -38,7 +38,7 @@ trait Browser
      * @param string $script 
      * @return null|string 
      */
-    public function javascript(string $script): ?string
+    public function javascript(string $script)
     {
         return $this->webDriver->executeScript($script);
     }
@@ -80,5 +80,10 @@ trait Browser
         $this->webDriver->takeScreenshot($absolutPath);
         $this->cli('Screenshot taken on ' . $this->currentUrl());
         return $this;
+    }
+
+    public function getSource(): string
+    {
+        return $this->webDriver->getPageSource();
     }
 }
