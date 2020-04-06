@@ -11,10 +11,6 @@ use JBZoo\Utils\Filter;
 class Element
 {
     use Input;
-    /**
-     * @var CLImate 
-     */
-    private $CLImate;
 
     /**
      * @var RemoteWebElement

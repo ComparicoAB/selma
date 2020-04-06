@@ -40,8 +40,6 @@ class Collection implements \Iterator
                 $this->collection[] = new Element($element, $selector);
             }
         }
-
-        $this->CLImate = new CLImate;
     }
 
     public function rewind(): void
@@ -170,7 +168,7 @@ class Collection implements \Iterator
      */
     public function cli(string $message, string $color = 'green'): Collection
     {
-        $this->CLImate->$color($message);
+        error_log($message);
         return $this;
     }
 }
