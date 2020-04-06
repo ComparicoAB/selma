@@ -6,7 +6,6 @@ namespace Akdr\Selma;
 
 use Akdr\Selma\Traits\Input;
 use Facebook\WebDriver\Remote\RemoteWebElement;
-use League\CLImate\CLImate;
 use JBZoo\Utils\Filter;
 
 class Element
@@ -38,7 +37,6 @@ class Element
     public function __construct(RemoteWebElement $element, string $selector)
     {
         $this->element = $element;
-        $this->CLImate = new CLImate;
         $this->selector = $selector;
     }
 
@@ -152,7 +150,7 @@ class Element
      */
     public function cli(string $message, string $color = 'green'): Element
     {
-        $this->CLImate->$color($message);
+        error_log($message);
         return $this;
     }
 }

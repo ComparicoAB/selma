@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Akdr\Selma;
 
 use Exception;
-use League\CLImate\CLImate;
 
 class Collection implements \Iterator
 {
@@ -13,11 +12,6 @@ class Collection implements \Iterator
      * @var int
      */
     private $position;
-
-    /**
-     * @var CLImate 
-     */
-    private $CLImate;
 
     /**
      * @var Element[]

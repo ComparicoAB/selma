@@ -9,7 +9,6 @@ use Akdr\Selma\Traits\DOM;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\Chrome\ChromeOptions;
-use League\CLImate\CLImate;
 
 class Navigation
 {
@@ -20,11 +19,6 @@ class Navigation
      * @var RemoteWebDriver
      */
     private $webDriver;
-
-    /**
-     * @var CLImate 
-     */
-    private $CLImate;
 
     /**
      * @var Element|null;
@@ -49,8 +43,6 @@ class Navigation
         $capabilities->setCapability(ChromeOptions::CAPABILITY_W3C, $options);
 
         $this->webDriver = RemoteWebDriver::create($webdriverHostURL, $capabilities);
-
-        $this->CLImate = new CLImate;
     }
     
     /**
@@ -61,13 +53,13 @@ class Navigation
      */
     public function cli(string $message, string $color = 'green') : Navigation
     {
-        $this->CLImate->$color($message);
+        error_log($message);
         return $this;
     }
 
     public function __destruct()
     {
-        $this->cli('Killing Browser on exit', 'cyan');
+        error_log('Killing Browser on exit');
         $this->webDriver->quit();
     }
 }
