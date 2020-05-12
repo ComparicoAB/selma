@@ -25,8 +25,11 @@ trait DOM
             $this->collection = new Collection($elements, $selector);
 
         if (count($elements) == 0)
+        {
             $this->cli('No elements found, Elements is set to empty array', 'white');
-
+            $this->collection = new Collection([], $selector);
+        }
+            
         return $this->collection;
     }
 
