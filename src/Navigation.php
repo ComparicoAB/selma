@@ -41,7 +41,7 @@ class Navigation
 
         $capabilities = DesiredCapabilities::chrome();
         $capabilities->setCapability(ChromeOptions::CAPABILITY_W3C, $options);
-
+        $capabilities->setPlatform("Linux");
         $this->webDriver = RemoteWebDriver::create($webdriverHostURL, $capabilities);
     }
     
