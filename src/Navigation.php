@@ -18,7 +18,7 @@ class Navigation
     /**
      * @var RemoteWebDriver
      */
-    private $webDriver;
+    public $webDriver;
 
     /**
      * @var Element|null;
