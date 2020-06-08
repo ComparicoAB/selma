@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Akdr\Selma;
 
 use Akdr\Selma\Traits\Input;
+use Exception;
 use Facebook\WebDriver\Remote\RemoteWebElement;
 use JBZoo\Utils\Filter;
 
@@ -70,7 +71,7 @@ class Element
         $this->value = null;
         try {
             $this->value = $this->element->getText();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->cli('Text could not be found in selector: ' . $this->selector, 'white');
         }
 
@@ -112,7 +113,7 @@ class Element
     {
         try {
             $this->element->click();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->cli('Could not click Element with value ' . $this->value . ' and selector ' . $this->selector, 'red');
         }
 

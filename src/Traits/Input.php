@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Akdr\Selma\Traits;
 
 use Akdr\Selma\Element;
-use Facebook\WebDriver\WebDriverKeys;
+use ReflectionClass;
 
 trait Input
 {
@@ -32,7 +32,7 @@ trait Input
      */
     public function pressKey(string $WebDriverKeyConstant): Element
     {
-        $ref = new \ReflectionClass('Facebook\WebDriver\WebDriverKeys');
+        $ref = new ReflectionClass('Facebook\WebDriver\WebDriverKeys');
         $this->element->sendKeys($ref->getConstant($WebDriverKeyConstant)); 
         
         return $this;

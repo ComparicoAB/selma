@@ -6,6 +6,7 @@ namespace Akdr\Selma\Traits;
 
 use Akdr\Selma\Collection;
 use Akdr\Selma\Element;
+use Exception;
 use Facebook\WebDriver\WebDriverBy;
 
 trait DOM
@@ -46,7 +47,7 @@ trait DOM
         try {
             $element = $this->webDriver->findElement(WebDriverBy::cssSelector($selector));
             $this->element = new Element($element, $selector);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->cli("No element found, Element is set to null. Selector: $selector", "white");
         }
 

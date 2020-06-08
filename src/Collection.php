@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace Akdr\Selma;
 
 use Exception;
+use Facebook\WebDriver\Remote\RemoteWebElement;
+use Iterator;
 
-class Collection implements \Iterator
+class Collection implements Iterator
 {
     /**
      * @var int
@@ -133,8 +135,10 @@ class Collection implements \Iterator
      * Returns an array with ['element'] => $element, ['value'] => $value.
      * Values can be transformed to Float or Int by calling method convertToInt() or convertToFloat()
      * ex. Collection->getText()->convertToInt()->returnElementAndValue();
-     * @var string[]|int[]|float[]|array
      * @return array
+     * @throws Exception
+     * @throws Exception
+     * @var string[]|int[]|float[]|array
      */
     public function returnElementAndValue() : array
     {
