@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 use Akdr\Selma\Navigation;
-use Akdr\Selma\Object\Element;
+use Akdr\Selma\Element;
 use Facebook\WebDriver\WebDriverBy;
 use PHPUnit\Framework\TestCase;
 
@@ -63,13 +63,27 @@ final class ElementTest extends TestCase
     public function testCanTransformTextToInt(): void
     {
             $element = self::$element->set([
-                'selector'=> '.col-lg-offset-2',
+                'selector'=> 'address',
                 'attribute' => 'text'
             ]);
 
-            $this->assertIsString($element->getValue());
+            $this->assertIsNotInt($element->getValue());
             $this->assertIsInt($element->getValue('int'));
-            $this->assertEquals(2011, $element->getValue('int'));
+            $this->assertEquals(1675330556851, $element->getValue('int'));
     }
+
+    public function testCanTransformTextToFloat(): void
+    {
+        $element = self::$element->set([
+            'selector'=> 'address',
+            'attribute' => 'text'
+        ]);
+
+        $this->assertIsNotFloat($element->getValue());
+        $this->assertIsFloat($element->getValue('float'));
+        $this->assertEquals(1675330556851, $element->getValue('float'));
+    }
+
+
 
 }
