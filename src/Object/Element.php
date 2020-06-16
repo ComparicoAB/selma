@@ -5,9 +5,12 @@ declare(strict_types=1);
 namespace Akdr\Selma\Object;
 
 use Akdr\Selma\Navigation;
-use Facebook\WebDriver\WebDriverKeys;
+use Exception;
 use Facebook\WebDriver\WebDriverBy;
+use Facebook\WebDriver\Remote\RemoteWebElement;
 use JBZoo\Utils\Filter;
+use ReflectionClass;
+use function array_walk;
 
 class Element {
     /**
@@ -16,7 +19,7 @@ class Element {
     private $navigation;
 
     /**
-     * @var Facebook\WebDriver\Remote\RemoteWebElement
+     * @var RemoteWebElement
      */
     public $element;
 
@@ -40,7 +43,7 @@ class Element {
         $this->navigation = $navigation;
         // Walk through the options array and set variables in the class.
         // Selector must be the first option in the array.
-        \array_walk($options, array($this, 'resolveOptions'));
+        array_walk($options, array($this, 'resolveOptions'));
 
         return $this;
     }
@@ -48,13 +51,14 @@ class Element {
     /**
      * Keys are: selector (non-optional), element, attribute, click, class, input, pressKey, delay
      * Set also resets saved values.
+     * @return Element
      * @var array $options Array will be initiated in the order presented.
      */
     public function set(array $options): Element
     {
         $this->element = $this->value = $this->hasClass = $this->selector = null;
 
-        \array_walk($options, array($this, 'resolveOptions'));
+        array_walk($options, array($this, 'resolveOptions'));
 
         return $this;
     }
@@ -94,7 +98,7 @@ class Element {
                 break;
 
             case 'pressKey':
-                $ref = new \ReflectionClass('Facebook\WebDriver\WebDriverKeys');
+                $ref = new ReflectionClass('Facebook\WebDriver\WebDriverKeys');
                 $this->element->sendKeys($ref->getConstant($value));
                 break;
 
@@ -126,7 +130,7 @@ class Element {
                 $this->element = $this->element->findElement(WebDriverBy::cssSelector($selector));
             }
             return true;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->element = null;
 
         }

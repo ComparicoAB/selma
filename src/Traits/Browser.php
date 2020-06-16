@@ -46,6 +46,7 @@ trait Browser
     /**
      * sleep
      *
+     * @param int $ms
      * @return Navigation
      */
     public function sleep(int $ms = 300000): Navigation
@@ -57,7 +58,7 @@ trait Browser
     /**
      * Make the Selenium browser scroll to a specific height. If no param is set, it will scroll all the way down.
      * @param int|null $scrollHeight
-     * @return Navigation
+     * @return Browser
      */
     public function scrollTo(?int $scrollHeight = null): Navigation
     {
@@ -73,6 +74,7 @@ trait Browser
     /**
      * screenshot
      *
+     * @param string $absolutPath
      * @return Navigation
      */
     public function screenshot(string $absolutPath): Navigation

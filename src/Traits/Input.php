@@ -14,9 +14,9 @@ trait Input
      *
      * @param string $inputString
      *
-     * @return Element
+     * @return Element|Input
      */
-    public function insertStringIntoElement(string $inputString): Element
+    public function insertStringIntoElement(string $inputString)
     {
         $this->element->sendKeys($inputString);
 
@@ -26,11 +26,10 @@ trait Input
     /**
      * Press a key on the current element
      *
-     * @param string $inputString
-     *
-     * @return Element
+     * @param string $WebDriverKeyConstant
+     * @return Element|Input
      */
-    public function pressKey(string $WebDriverKeyConstant): Element
+    public function pressKey(string $WebDriverKeyConstant)
     {
         $ref = new ReflectionClass('Facebook\WebDriver\WebDriverKeys');
         $this->element->sendKeys($ref->getConstant($WebDriverKeyConstant)); 
