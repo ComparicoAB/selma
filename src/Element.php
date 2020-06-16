@@ -35,7 +35,7 @@ class Element {
     /**
      * @var bool
      */
-    private $hasClass;
+    public $hasClass;
 
     /**
      * Element constructor.
