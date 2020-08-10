@@ -150,16 +150,31 @@ class Element {
         switch($returnType){
             case 'int':
                 return Filter::int((string) $this->value);
-                break;
-
             case 'float':
                 return Filter::float((string) $this->value);
-                break;
-
             case null:
             default:
                 return $this->value;
-                break;
         }
+    }
+
+    public function findElement($selector): ?RemoteWebElement
+    {
+        try {
+            $remoteWebElement = $this->navigation->webDriver->findElement(WebDriverBy::cssSelector($selector));
+        } catch (Exception $e) {
+            $remoteWebElement = null;
+        }
+        return $remoteWebElement;
+    }
+
+    public function findElements($selector): ?array
+    {
+        try {
+            $remoteWebElements = $this->navigation->webDriver->findElements(WebDriverBy::cssSelector($selector));
+        } catch (Exception $e) {
+            $remoteWebElements = null;
+        }
+        return $remoteWebElements;
     }
 }
