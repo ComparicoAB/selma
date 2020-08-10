@@ -109,11 +109,11 @@ class Navigation
     {
         return $this->webDriver->getPageSource();
     }
-    
+
     /**
-     * 
+     *
      * @param string $message
-     * @return Navigation 
+     * @return Navigation
      */
     public function cli(string $message) : Navigation
     {

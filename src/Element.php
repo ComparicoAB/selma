@@ -89,6 +89,11 @@ class Element {
                 break;
 
             case 'click':
+                if($this->element == null && $value === true)
+                {
+                    error_log('Could not click on element because it is not selected. Selector: ' . $this->selector);
+                    break;
+                }
                 ($value === true) ? $this->element->click() : null;
                 break;
 
@@ -175,6 +180,7 @@ class Element {
         } catch (Exception $e) {
             $remoteWebElements = null;
         }
+
         return $remoteWebElements;
     }
 }
