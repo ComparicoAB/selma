@@ -183,4 +183,12 @@ class Element {
 
         return $remoteWebElements;
     }
+
+    public function grabSelectorValue($selector, $returnType = null, $attribute = null)
+    {
+        $element = $this->navigation->webDriver->findElement(WebDriverBy::cssSelector($selector));
+        $this->value = ($attribute == 'text' || is_null($attribute)) ? $element->getText() : $element->getAttribute($attribute);
+
+        return $this->getValue($returnType);
+    }
 }
