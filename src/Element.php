@@ -154,13 +154,21 @@ class Element {
 
         switch($returnType){
             case 'int':
-                return Filter::int((string) $this->value);
+                $returnValue = Filter::int((string) $this->value);
+                break;
             case 'float':
-                return Filter::float((string) $this->value);
+                $returnValue = Filter::float((string) $this->value);
+                break;
             case null:
             default:
-                return $this->value;
+                $returnValue = $this->value;
         }
+
+        if(empty($returnValue)){
+            error_log('Selector: ' . $this->selector . ' had a value of ' . $returnValue . ' (Preformatted: ' . $this->value .')');
+        }
+
+        return $returnValue;
     }
 
     public function findElement($selector): ?RemoteWebElement
@@ -186,7 +194,8 @@ class Element {
 
     public function grabSelectorValue($selector, $returnType = null, $attribute = null)
     {
-        $element = $this->navigation->webDriver->findElement(WebDriverBy::cssSelector($selector));
+        $this->selector = $selector;
+        $element = $this->navigation->webDriver->findElement(WebDriverBy::cssSelector($this->selector));
         $this->value = ($attribute == 'text' || is_null($attribute)) ? $element->getText() : $element->getAttribute($attribute);
 
         return $this->getValue($returnType);
