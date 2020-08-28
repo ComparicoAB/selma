@@ -90,7 +90,13 @@ class Element {
 					error_log( 'Could not click on element because it is not selected. Selector: ' . $this->selector );
 					break;
 				}
-				( $value === true ) ? $this->element->click() : null;
+
+				try {
+					( $value === true ) ? $this->element->click() : null;
+				} catch ( Exception $e ) {
+					error_log( 'Could not click selector: ' . $this->selector . '. Crashing.' );
+					die();
+				}
 				break;
 
 			case 'class':
@@ -123,6 +129,8 @@ class Element {
 				}
 				break;
 		}
+
+		return;
 	}
 
 	private function getElementBySelector( string $selector ): bool {
@@ -135,6 +143,8 @@ class Element {
 
 			return true;
 		} catch ( Exception $e ) {
+			error_log( 'Crashed on selector: ' . $selector );
+			die();
 			$this->element = null;
 
 		}
@@ -159,9 +169,10 @@ class Element {
 				$returnValue = $this->value;
 		}
 
-		if ( empty( $returnValue ) ) {
-			error_log( 'Selector: ' . $this->selector . ' had a value of ' . $returnValue . ' (Preformatted: ' . $this->value . ')' );
-		}
+		#if(empty($returnValue)){
+		error_log( 'Selector: ' . $this->selector . ' had a value of ' . $returnValue . ' (Preformatted: ' . $this->value . ')' );
+
+		#}
 
 		return $returnValue;
 	}
