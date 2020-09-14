@@ -122,7 +122,6 @@ class Navigation {
 	}
 
 	public function __destruct() {
-		$this->screenshot( '/var/app/mobiltelefoner/storage/exit.png' );
 		error_log( 'Killing Browser on exit' );
 		$this->webDriver->quit();
 	}

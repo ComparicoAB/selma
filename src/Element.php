@@ -90,13 +90,7 @@ class Element {
 					error_log( 'Could not click on element because it is not selected. Selector: ' . $this->selector );
 					break;
 				}
-
-				try {
-					( $value === true ) ? $this->element->click() : null;
-				} catch ( Exception $e ) {
-					error_log( 'Could not click selector: ' . $this->selector . '. Crashing.' );
-					die();
-				}
+				( $value === true ) ? $this->element->click() : null;
 				break;
 
 			case 'class':
@@ -143,8 +137,6 @@ class Element {
 
 			return true;
 		} catch ( Exception $e ) {
-			error_log( 'Crashed on selector: ' . $selector );
-			die();
 			$this->element = null;
 
 		}
@@ -159,22 +151,13 @@ class Element {
 
 		switch ( $returnType ) {
 			case 'int':
-				$returnValue = Filter::int( (string) $this->value );
-				break;
+				return Filter::int( (string) $this->value );
 			case 'float':
-				$returnValue = Filter::float( (string) $this->value );
-				break;
+				return Filter::float( (string) $this->value );
 			case null:
 			default:
-				$returnValue = $this->value;
+				return $this->value;
 		}
-
-		#if(empty($returnValue)){
-		error_log( 'Selector: ' . $this->selector . ' had a value of ' . $returnValue . ' (Preformatted: ' . $this->value . ')' );
-
-		#}
-
-		return $returnValue;
 	}
 
 	public function findElement( $selector ): ?RemoteWebElement {
@@ -195,13 +178,5 @@ class Element {
 		}
 
 		return $remoteWebElements;
-	}
-
-	public function grabSelectorValue( $selector, $returnType = null, $attribute = null ) {
-		$this->selector = $selector;
-		$element        = $this->navigation->webDriver->findElement( WebDriverBy::cssSelector( $this->selector ) );
-		$this->value    = ( $attribute == 'text' || is_null( $attribute ) ) ? $element->getText() : $element->getAttribute( $attribute );
-
-		return $this->getValue( $returnType );
 	}
 }
