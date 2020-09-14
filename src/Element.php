@@ -88,9 +88,14 @@ class Element {
 			case 'click':
 				if ( $this->element == null && $value === true ) {
 					error_log( 'Could not click on element because it is not selected. Selector: ' . $this->selector );
-					break;
+					die();
 				}
-				( $value === true ) ? $this->element->click() : null;
+				try {
+					( $value === true ) ? $this->element->click() : null;
+				} catch ( Exception $e ) {
+					error_log( 'Could not click selector: ' . $this->selector . '. Crashing.' );
+					die();
+				}
 				break;
 
 			case 'class':
@@ -178,5 +183,13 @@ class Element {
 		}
 
 		return $remoteWebElements;
+	}
+
+	public function grabSelectorValue( $selector, $returnType = null, $attribute = null ) {
+		$this->selector = $selector;
+		$element        = $this->navigation->webDriver->findElement( WebDriverBy::cssSelector( $this->selector ) );
+		$this->value    = ( $attribute == 'text' || is_null( $attribute ) ) ? $element->getText() : $element->getAttribute( $attribute );
+
+		return $this->getValue( $returnType );
 	}
 }
