@@ -118,13 +118,25 @@ class Element {
 
 			case 'waitForElement':
 				$i = 0;
-				while ( $this->element == null ) {
+
+				$value = $value / 1000;
+
+				$waitingElement = $this->element;
+
+				while ( $waitingElement == null ) {
+
 					$i ++;
+
 					if ( $i > $value ) {
+						error_log( 'Waited ' . ( $value ) . ' seconds. Can not find it, exiting.' );
 						break;
 					}
-					$this->navigation->sleep( 10000 );
+
+					$this->navigation->sleep( 1000 );
+
 					$this->getElementBySelector( $this->selector );
+
+					$waitingElement = $this->element;
 				}
 				break;
 		}
