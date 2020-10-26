@@ -4,9 +4,6 @@ declare( strict_types=1 );
 
 namespace Akdr\Selma;
 
-use Akdr\Selma\Element;
-use Akdr\Selma\Navigation;
-
 class State {
 	/**
 	 * @var Navigation
@@ -17,6 +14,11 @@ class State {
 	 * @var Element
 	 */
 	private $element;
+
+	/**
+	 * @var mixed
+	 */
+	public $originalValue;
 
 	/**
 	 * Element constructor.
@@ -31,22 +33,32 @@ class State {
 		return $this;
 	}
 
-	public function observeAttributeChange($selector, $attribute = 'text', $waitForInSeconds = 30): ?bool
+	public function observeAttributeChange($selector, $attribute = 'text', $waitForInSeconds = 30, $element = null): ?bool
 	{
-
 		if($selector === null || !$this->element->findElement($selector) )
 		{
 			return null;
 		}
 
+		if(!$this->originalValue){
+			error_log('You must set $originalValue before executing the method');
+			return null;
+		}
+
 		$i = 0;
 
-		$waitForInMilliseconds = $waitForInSeconds * 100;
+		$waitForInMilliseconds = $waitForInSeconds * 10;
 
-		$observedElement = $this->element->set([
+		$argumentList = array(
 			'selector' => $selector,
 			'attribute' => $attribute
-		]);
+		);
+
+		if(!is_null($element)){
+			$argumentList = array('element' => $element) + $argumentList;
+		}
+
+		$observedElement = $this->element->set($argumentList);
 
 		$originalState = $this->originalValue;
 
@@ -56,16 +68,12 @@ class State {
 		{
 			$i++;
 			if ( $i > $waitForInMilliseconds ) {
-				error_log( '(' .$waitForInSeconds . 's). No change was in the attribute ' . $attribute . ' for ' . $selector);
+				error_log( '(' .$waitForInSeconds . 's) No change was in the attribute ' . $attribute . ' for ' . $selector);
 				break;
 			}
 
 			usleep(10000);
-
-			$observedElement = $this->element->set([
-				'selector' => $selector,
-				'attribute' => $attribute
-			]);
+			$observedElement = $this->element->set($argumentList);
 
 			$changedState = $observedElement->getValue();
 		}
@@ -81,15 +89,14 @@ class State {
 		}
 
 		$i = 0;
-
 		$waitForInMilliseconds = $waitForInSeconds * 100;
 
 		$observedElement = $this->element->findElement($selector);
 
-		$originalState = $observedElement;
+		$originalState = serialize($observedElement);
 		$observedState = $originalState;
 
-		while($originalState !== $observedState)
+		while($originalState === $observedState)
 		{
 			$i++;
 			if ( $i > $waitForInMilliseconds ) {
@@ -98,8 +105,7 @@ class State {
 			}
 
 			usleep(10000);
-
-			$observedState = $this->element->findElement($selector);
+			$observedState = serialize($this->element->findElement($selector));
 		}
 
 		return $originalState !== $observedState;
