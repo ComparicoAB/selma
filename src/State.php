@@ -21,6 +21,11 @@ class State {
 	public $originalValue;
 
 	/**
+	 * @var array
+	 */
+	public $originalValues;
+
+	/**
 	 * Element constructor.
 	 *
 	 * @param Navigation $navigation
@@ -30,6 +35,7 @@ class State {
 		// Start the element class to be able to retrieve data
 		$this->element = new Element($navigation, []);
 		$this->originalValue = $originalValue;
+		$this->originalValues = [];
 		return $this;
 	}
 
@@ -142,4 +148,43 @@ class State {
 		return $changeIsMet;
 	}
 
+	public function setMultipleDomValues(array $selectorArray): void
+	{
+		foreach($selectorArray as $selector){
+			$this->originalValues[$selector] = serialize($this->element->findElement($selector));
+		}
+		return;
+	}
+
+	public function observeMultipleDOM(array $selectorArray, int $waitForInSeconds): ?string
+	{
+		if(empty($selectorArray))
+			return null;
+
+		$currentTime = microtime(true);
+		$exitTime = $currentTime + $waitForInSeconds;
+		$abort = false;
+		$returnSelector = null;
+
+		while($abort === false)
+		{
+			$currentTime = microtime(true);
+			if ( $currentTime > $exitTime ) {
+				error_log( '(' .$waitForInSeconds . 's). No change in the DOM detected for selectorArray');
+				break;
+			}
+
+			foreach($selectorArray as $selector)
+			{
+				if(serialize($this->element->findElement($selector)) !== $this->originalValues[$selector])
+				{
+					return $selector;
+				}
+			}
+
+			usleep(10000);
+		}
+		return $returnSelector;
+
+	}
 }
