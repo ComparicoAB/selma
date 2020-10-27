@@ -51,9 +51,8 @@ class State {
 			return null;
 		}
 
-		$i = 0;
-
-		$waitForInMilliseconds = $waitForInSeconds * 10;
+		$currentTime = microtime(true);
+		$exitTime = $currentTime + $waitForInSeconds;
 
 		$argumentList = array(
 			'selector' => $selector,
@@ -72,9 +71,9 @@ class State {
 
 		while($originalState === $changedState)
 		{
-			$i++;
-			if ( $i > $waitForInMilliseconds ) {
-				error_log( '(' .$waitForInSeconds . 's) No change was in the attribute ' . $attribute . ' for ' . $selector);
+			$currentTime = microtime(true);
+			if ( $currentTime > $exitTime ) {
+				error_log( '(' .$waitForInSeconds . ' sec). No change was in the attribute ' . $attribute . ' for ' . $selector);
 				break;
 			}
 
@@ -94,22 +93,20 @@ class State {
 			return null;
 		}
 
-		$i = 0;
-		$waitForInMilliseconds = $waitForInSeconds * 100;
+		$currentTime = microtime(true);
+		$exitTime = $currentTime + $waitForInSeconds;
 
 		$observedElement = $this->element->findElement($selector);
 
 		$originalState = serialize($observedElement);
 		$observedState = $originalState;
-
 		while($originalState === $observedState)
 		{
-			$i++;
-			if ( $i > $waitForInMilliseconds ) {
-				error_log( '(' .$waitForInSeconds . 's). No change in the DOM detected for ' . $selector);
+			$currentTime = microtime(true);
+			if ( $currentTime > $exitTime ) {
+				error_log( '(' .$waitForInSeconds . ' sec). No change in the DOM detected for ' . $selector);
 				break;
 			}
-
 			usleep(10000);
 			$observedState = serialize($this->element->findElement($selector));
 		}
@@ -124,19 +121,16 @@ class State {
 			return null;
 		}
 
-		$i = 0;
-
-		$waitForInMilliseconds = $waitForInSeconds * 100;
-
-		$changeIsMet = false;
+		$currentTime = microtime(true);
+		$exitTime = $currentTime + $waitForInSeconds;
 
 		$observedState = $this->originalValue;
 
 		while($observedState === $originalState)
 		{
-			$i++;
-			if ( $i > $waitForInMilliseconds ) {
-				error_log( '(' .$waitForInSeconds . 's). No change in the DOM detected for ' . $originalState);
+			$currentTime = microtime(true);
+			if ( $currentTime > $exitTime ) {
+				error_log( '(' .$waitForInSeconds . 'sec). No change in the DOM detected for ' . $originalState);
 				break;
 			}
 
@@ -145,7 +139,7 @@ class State {
 
 		}
 
-		return $changeIsMet;
+		return $observedState !== $originalState;
 	}
 
 	public function setMultipleDomValues(array $selectorArray): void
@@ -164,13 +158,12 @@ class State {
 		$currentTime = microtime(true);
 		$exitTime = $currentTime + $waitForInSeconds;
 		$abort = false;
-		$returnSelector = null;
 
 		while($abort === false)
 		{
 			$currentTime = microtime(true);
 			if ( $currentTime > $exitTime ) {
-				error_log( '(' .$waitForInSeconds . 's). No change in the DOM detected for selectorArray');
+				error_log( '(' .$waitForInSeconds . ' sec). No change in the DOM detected for selectorArray');
 				break;
 			}
 
@@ -184,7 +177,7 @@ class State {
 
 			usleep(10000);
 		}
-		return $returnSelector;
+		return null;
 
 	}
 }
