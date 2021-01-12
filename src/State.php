@@ -98,7 +98,7 @@ class State {
 
 		$observedElement = $this->element->findElement($selector);
 
-		$originalState = serialize($observedElement);
+		$originalState = $observedElement;
 		$observedState = $originalState;
 		while($originalState === $observedState)
 		{
@@ -108,7 +108,7 @@ class State {
 				break;
 			}
 			usleep(10000);
-			$observedState = serialize($this->element->findElement($selector));
+			$observedState = $this->element->findElement($selector);
 		}
 
 		return $originalState !== $observedState;
@@ -145,7 +145,7 @@ class State {
 	public function setMultipleDomValues(array $selectorArray): void
 	{
 		foreach($selectorArray as $selector){
-			$this->originalValues[$selector] = serialize($this->element->findElement($selector));
+			$this->originalValues[$selector] = $this->element->findElement($selector);
 		}
 		return;
 	}
@@ -169,7 +169,8 @@ class State {
 
 			foreach($selectorArray as $selector)
 			{
-				if(serialize($this->element->findElement($selector)) !== $this->originalValues[$selector])
+				$elementBeingObserved = $this->element->findElement($selector);
+				if($elementBeingObserved !== $this->originalValues[$selector])
 				{
 					return $selector;
 				}
