@@ -20,7 +20,7 @@
     "require": {
         "php-webdriver/webdriver": "^1.8",
         "jbzoo/utils": "^3.1",
-        "php": ">=7.3.0",
+        "php": ">=8.0",
         "jbzoo/data": "^3.0",
         "ext-json": "*"
     },
