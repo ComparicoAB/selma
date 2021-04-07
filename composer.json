@@ -18,7 +18,7 @@
     },
     "minimum-stability": "stable",
     "require": {
-        "php-webdriver/webdriver": "^1.8",
+        "php-webdriver/webdriver": ">=1.10.0",
         "jbzoo/utils": "^3.1",
         "php": ">=8.0",
         "jbzoo/data": "^3.0",
