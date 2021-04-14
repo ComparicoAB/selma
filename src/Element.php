@@ -117,25 +117,29 @@ class Element {
 
 		if(!is_null($waitForElementToAppearInMs)) {
 			$i = 0;
-
-			$value = $waitForElementToAppearInMs / 1000;
-
-			$waitingElement = $this->element;
-
-			while ( $waitingElement == null ) {
-
+			$startTime = microtime(true);
+			$ms = $waitForElementToAppearInMs / 1000;
+			do {
 				$i ++;
 
-				if ( $i > $value ) {
-					error_log( 'Waited ' . ( $value ) . ' seconds. Can not find it, exiting.' );
+				if ( $i > $ms ) {
+					error_log( 'Waited ' . ( $ms ) . ' milliseconds. Can not find the element, exiting.' );
 					break;
 				}
 
-				$this->navigation->sleep( 1000 );
-				$this->element = $this->navigation->webDriver->findElement( WebDriverBy::cssSelector( $this->selector ) );
+				usleep(1000);
+				try {
+					$this->element = $this->navigation->webDriver->findElement( WebDriverBy::cssSelector( $cssSelector ) );
+				} catch (Exception $e){
+					$this->element = null;
+				}
 
 				$waitingElement = $this->element;
-			}
+			} while ( is_null($waitingElement) );
+
+			$endTime = microtime(true);
+			$status = (is_null($this->element)) ? 'Not found' : 'Found';
+			error_log('Waited for: ' . ($endTime - $startTime) . 'ms. Element status: ' . $status);
 		}
 
 		if(is_null($this->element)){
@@ -166,6 +170,7 @@ class Element {
 		}
 
 		if(!is_null($insertTextIntoInput)){
+			$this->navigation->cli('Inserting text string into input field: ' . $insertTextIntoInput);
 			$this->element->sendKeys( $insertTextIntoInput );
 		}
 
