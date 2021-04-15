@@ -61,21 +61,66 @@ class MultipleElements {
 		}
 
 		if(!is_null($waitForElementToAppearInMs)) {
-			$i = 0;
-			$value = $waitForElementToAppearInMs / 1000;
-			$waitingElement = $elements;
-
-			while ( empty($waitingElement) ) {
-
-				$i ++;
-				if ( $i > $value ) {
-					error_log( 'Waited ' . ( $value ) . ' seconds. Can not find it, exiting.' );
+			$startTime = microtime(true);
+			$msInFloat = $waitForElementToAppearInMs / 1_000_000;
+			do {
+				$timeSinceStart = microtime(true) - $startTime;
+				if ( $timeSinceStart > $msInFloat ) {
 					break;
 				}
 
-				$this->navigation->sleep( 1000 );
-				$waitingElement = $this->navigation->webDriver->findElements( WebDriverBy::cssSelector( $cssSelector ) );
-			}
+				usleep(1000);
+				try {
+					$this->element = $this->navigation->webDriver->findElement( WebDriverBy::cssSelector( $cssSelector ) );
+					if(!$this->element->isDisplayed()){
+						$this->element = null;
+					}
+				} catch (Exception $e){
+					$this->element = null;
+				}
+
+				$waitingElement = $this->element;
+			} while ( is_null($waitingElement) );
+
+			$endTime = microtime(true);
+			$status = (is_null($this->element)) ? 'Not found' : 'Found';
+			$this->navigation->cli('##### WaitingForElement Info ######');
+			$this->navigation->cli('Waited for: ' . ($endTime - $startTime) . ' seconds.');
+			$this->navigation->cli('Total waiting time approved: ' . $msInFloat . ' seconds.');
+			$this->navigation->cli('cssSelector: ' . $cssSelector);
+			$this->navigation->cli('Status: ' . $status);
+			$this->navigation->cli('#########################');
+		}
+
+		if(!is_null($waitForElementToAppearInMs)) {
+			$waitingElements = [];
+			$startTime = microtime(true);
+			$msInFloat = $waitForElementToAppearInMs / 1_000_000;
+
+			do {
+				$timeSinceStart = microtime(true) - $startTime;
+				if ( $timeSinceStart > $msInFloat ) {
+					break;
+				}
+
+				usleep(1000);
+				try {
+					$elements = $this->navigation->webDriver->findElements( WebDriverBy::cssSelector( $cssSelector ) );
+				} catch (Exception $e){
+					$elements = [];
+				}
+
+				$waitingElements = $elements;
+			} while ( empty($waitingElements) );
+
+			$endTime = microtime(true);
+			$status = (empty($elements)) ? 'Not found' : 'Found ' . count($elements) . ' elements';
+			$this->navigation->cli('##### MultipleElements WaitingForElement Info ######');
+			$this->navigation->cli('Waited for: ' . ($endTime - $startTime) . ' seconds.');
+			$this->navigation->cli('Total waiting time approved: ' . $msInFloat . ' seconds.');
+			$this->navigation->cli('cssSelector: ' . $cssSelector);
+			$this->navigation->cli('Status: ' . $status);
+			$this->navigation->cli('#########################');
 		}
 
 		if(empty( $elements )){
