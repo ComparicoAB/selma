@@ -116,20 +116,20 @@ class Element {
 		}
 
 		if(!is_null($waitForElementToAppearInMs)) {
-			$i = 0;
 			$startTime = microtime(true);
-			$ms = $waitForElementToAppearInMs / 1000;
+			$msInFloat = $waitForElementToAppearInMs / 1_000_000;
 			do {
-				$i ++;
-
-				if ( $i > $ms ) {
-					error_log( 'Waited ' . ( $ms ) . ' milliseconds. Can not find the element, exiting.' );
+				$timeSinceStart = microtime(true) - $startTime;
+				if ( $timeSinceStart > $msInFloat ) {
 					break;
 				}
 
 				usleep(1000);
 				try {
 					$this->element = $this->navigation->webDriver->findElement( WebDriverBy::cssSelector( $cssSelector ) );
+					if(!$this->element->isDisplayed()){
+						$this->element = null;
+					}
 				} catch (Exception $e){
 					$this->element = null;
 				}
@@ -139,7 +139,12 @@ class Element {
 
 			$endTime = microtime(true);
 			$status = (is_null($this->element)) ? 'Not found' : 'Found';
-			error_log('Waited for: ' . ($endTime - $startTime) . 'ms. Element status: ' . $status);
+			$this->navigation->cli('##### WaitingForElement Info ######');
+			$this->navigation->cli('Waited for: ' . ($endTime - $startTime) . ' seconds.');
+			$this->navigation->cli('Total waiting time approved: ' . $msInFloat . ' seconds.');
+			$this->navigation->cli('cssSelector: ' . $cssSelector);
+			$this->navigation->cli('Status: ' . $status);
+			$this->navigation->cli('#########################');
 		}
 
 		if(is_null($this->element)){
