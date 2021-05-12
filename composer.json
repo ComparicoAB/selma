@@ -18,10 +18,10 @@
     },
     "minimum-stability": "stable",
     "require": {
-        "php-webdriver/webdriver": ">=1.10.0",
-        "jbzoo/utils": "^3.1",
+        "php-webdriver/webdriver": ">=1.11.0",
+        "jbzoo/utils": "^4.5",
         "php": ">=8.0",
-        "jbzoo/data": "^3.0",
+        "jbzoo/data": "^4.3",
         "ext-json": "*"
     },
     "autoload": {
