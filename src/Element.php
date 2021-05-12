@@ -197,7 +197,7 @@ class Element {
 				( $doClick === true ) ? $this->element->click() : null;
 			} catch ( Exception $e ) {
 				if(!$isOptional){
-					throw new Exception( 'Could not click selector: ' . $cssSelector . '. It is probably not available. Crashing.' );
+					throw new Exception( 'Element is probably not available. Crashing.' );
 				} else {
 					return null;
 				}
