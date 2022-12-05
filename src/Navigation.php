@@ -2,7 +2,7 @@
 
 declare( strict_types=1 );
 
-namespace Akdr\Selma;
+namespace ComparicoAB\Selma;
 
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\Remote\DesiredCapabilities;

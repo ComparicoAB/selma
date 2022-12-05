@@ -1,6 +1,6 @@
 <?php
 
-namespace Akdr\Selma;
+namespace ComparicoAB\Selma;
 
 use Exception;
 use Facebook\WebDriver\Remote\RemoteWebElement;
