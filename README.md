@@ -15,7 +15,7 @@ Navigation handles the browser navigation and manipulation. Its used by the Elem
 ```php
 // Example of starting a navigation. The first argument is the location of Selenium Hub and 
 // the second is Chrome-options.
-use Akdr\Selma\Navigation;
+use ComparicoAB\Selma\Navigation;
 $nav = new Navigation('http://localhost:4444/wd/hub', ["window-size=1920,4000", "--headless", "--disable-gpu", "--no-sandbox"]);
 ````
 
@@ -100,8 +100,8 @@ If you need to retrieve the class-bool, call for the property 'hasClass'.
 
 Example:
 ```php
-use Akdr\Selma\Navigation;
-use Akdr\Selma\Element;
+use ComparicoAB\Selma\Navigation;
+use ComparicoAB\Selma\Element;
 
 // Setup the browser and initiate the element class.
 $nav = new Navigation('http://localhost:4444/wd/hub', ["window-size=1920,4000", "--headless", "--disable-gpu", "--no-sandbox"]);
