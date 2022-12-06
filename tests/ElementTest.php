@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
-use Akdr\Selma\Navigation;
-use Akdr\Selma\Element;
+use ComparicoAB\Selma\Navigation;
+use ComparicoAB\Selma\Element;
 use Facebook\WebDriver\WebDriverBy;
 use PHPUnit\Framework\TestCase;
 

@@ -2,7 +2,7 @@
 
 declare( strict_types=1 );
 
-namespace Akdr\Selma;
+namespace ComparicoAB\Selma;
 
 use Exception;
 use Facebook\WebDriver\WebDriverBy;

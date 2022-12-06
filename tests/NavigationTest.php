@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-use Akdr\Selma\Navigation;
+use ComparicoAB\Selma\Navigation;
 use PHPUnit\Framework\TestCase;
 
 final class NavigationTest extends TestCase
